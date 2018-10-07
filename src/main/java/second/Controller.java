@@ -9,18 +9,29 @@ public class Controller {
         model = new Model();
     }
 
-    public String putStringAndChangeIt(String text) {
-        model.setText(text);
-        return model.changeString();
-    }
-
-    public String readStringFromFileAndChangeIt(String fileName) {
+    public void readStringFromFile(String fileName) {
         try {
             model.readStringFromFile(fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        return model.changeString();
+    public void readStringFromConsole() {
+        try {
+            model.readStringFromConsole();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String changeString() {
+        model.changeString();
+
+        return getText();
+    }
+
+    public String getText() {
+        return model.getText();
     }
 }
