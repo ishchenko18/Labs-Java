@@ -2,10 +2,8 @@ package third.model;
 
 import org.apache.commons.lang3.StringUtils;
 import third.entities.Flower;
-import third.exceptions.WrongFileFormatException;
 import third.parser.Parser;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
