@@ -21,19 +21,21 @@ public class Model {
         return flowers;
     }
 
-    public List<Flower> getBloomedFlowers() {
+    public List<Flower> getRoomBloomedFlowers() {
         if (flowers == null) {
             return Collections.emptyList();
         } else {
-            return Arrays.stream(flowers).filter(Flower::isBloom).collect(Collectors.toList());
+            return Arrays.stream(flowers).filter(Flower::isBloom)
+                    .filter(flower -> flower.getType().equalsIgnoreCase("room"))
+                    .collect(Collectors.toList());
         }
     }
 
-    public Double getPriceOfBloomedFlowers() {
-        if (getBloomedFlowers() == null) {
+    public Double getPriceOfRoomBloomedFlowers() {
+        if (getRoomBloomedFlowers() == null) {
             return 0d;
         } else {
-            return getBloomedFlowers().stream().mapToDouble(Flower::getPrice).sum();
+            return getRoomBloomedFlowers().stream().mapToDouble(Flower::getPrice).sum();
         }
     }
 
