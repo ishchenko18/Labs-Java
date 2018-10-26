@@ -4,58 +4,69 @@ import third.entities.Flower;
 import third.model.Model;
 import third.view.View;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Controller {
     private Model model;
-    private Scanner scanner;
+    private View view;
 
     public Controller() {
         model = new Model();
-        scanner = new Scanner(System.in);
+        view = new View();
     }
 
     public void doTask() {
-        View.printString("Developer: Vladyslav Ishchenko\n\n");
+        int task;
 
-        View.printString("----------TASKS----------\n");
-        View.printString("1 - Get Bloomed Flowers And Price\n2 - Get Flowers By Name And Count\n");
+        view.printString("Developer: Vladyslav Ishchenko\n");
 
-        View.printString("Please, enter number of task: ");
-        Integer task = scanner.nextInt();
+        parseFile("flowers.csv");
 
-        switch (task) {
-            case 1:
-                getBloomedFLowersAndPrice("flowers.csv");
-                break;
-            case 2:
-                View.printString("Enter name of flower: ");
-                String flower = scanner.next();
-                getFlowerByNameAndCount(flower, "flowers.csv");
-                break;
-            default:
-                View.printString("Such task doesn't exist.");
-        }
+        do {
+            view.printString("\n\n----------TASKS----------\n");
+            view.printString("1 - Get Room Bloomed Flowers And Price\n2 - Get Flowers By Name And Count\n3 - Output all data\n4 - Exit\n");
+
+            view.printString("Please, enter number of task: ");
+            task = view.inputNumber();
+
+            switch (task) {
+                case 1:
+                    getRoomBloomedFLowersAndPrice("flowers.csv");
+                    break;
+                case 2:
+                    view.printString("Enter name of flower: ");
+                    String flower = view.inputString();
+                    getFlowerByNameAndCount(flower, "flowers.csv");
+                    break;
+                case 3:
+                    view.printString("-----All flowers-----\n");
+                    view.printList(Arrays.stream(model.getFlowers()).collect(Collectors.toList()));
+                    break;
+                case 4:
+                    break;
+                default:
+                    view.printString("Such task doesn't exist.");
+            }
+        } while (task != 4);
     }
 
-    public void getBloomedFLowersAndPrice(String fileName) {
-        parseFile(fileName);
+    public void getRoomBloomedFLowersAndPrice(String fileName) {
         generalPrintingInformation("\n\n======Bloomed flowers=====\n",
-                model.getBloomedFlowers(), String.format("\nPrice of bloomed flowers: %.2f", model.getPriceOfBloomedFlowers()));
+                model.getRoomBloomedFlowers(), String.format("\nPrice of bloomed flowers: %.2f", model.getPriceOfRoomBloomedFlowers()));
     }
 
     public void getFlowerByNameAndCount(String name, String fileName) {
-        parseFile(fileName);
         generalPrintingInformation(String.format("\n\n======Flowers '%s'======\n", name.toUpperCase()),
                 model.getFlowersByName(name), String.format("\nCount of '%s': %d", name.toUpperCase(), model.getCountOfFlowersByName(name)));
     }
 
     private void generalPrintingInformation(String headline, List<Flower> flowers, String lastStr) {
-        View.printString(headline);
-        View.printList(flowers);
+        view.printString(headline);
+        view.printList(flowers);
 
-        View.printString(lastStr);
+        view.printString(lastStr);
     }
 
     private void parseFile(String fileName) {
