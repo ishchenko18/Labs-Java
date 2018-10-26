@@ -70,6 +70,11 @@ public class Controller {
     }
 
     private void parseFile(String fileName) {
-        model.parseFile(String.format("src/main/resources/third/%s", fileName));
+        try {
+            model.parseFile(String.format("src/main/resources/third/%s", fileName));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }

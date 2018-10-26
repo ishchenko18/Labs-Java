@@ -1,6 +1,8 @@
 package third.model;
 
+import org.apache.commons.lang3.StringUtils;
 import third.entities.Flower;
+import third.exceptions.WrongFileFormatException;
 import third.parser.Parser;
 
 import java.io.IOException;
@@ -32,15 +34,11 @@ public class Model {
     }
 
     public Double getPriceOfRoomBloomedFlowers() {
-        if (getRoomBloomedFlowers() == null) {
-            return 0d;
-        } else {
-            return getRoomBloomedFlowers().stream().mapToDouble(Flower::getPrice).sum();
-        }
+        return getRoomBloomedFlowers().stream().mapToDouble(Flower::getPrice).sum();
     }
 
     public List<Flower> getFlowersByName(String name) {
-        if (name == null || flowers == null) {
+        if (StringUtils.isBlank(name) || flowers == null) {
             return Collections.emptyList();
         } else {
             return Arrays.stream(flowers).filter(f -> f.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
@@ -55,14 +53,10 @@ public class Model {
         }
     }
 
-    public String parseFile(String fileName) {
-        try {
-            List<Flower> fls = parser.parseCsvFile(fileName);
-            flowers = new Flower[fls.size()];
-            flowers = fls.toArray(flowers);
-        } catch (IOException e) {
-            return e.getMessage();
-        }
+    public String parseFile(String fileName) throws Exception {
+        List<Flower> fls = parser.parseCsvFile(fileName);
+        flowers = new Flower[fls.size()];
+        flowers = fls.toArray(flowers);
 
         return String.format("File %s was successfully parsed.", fileName);
     }
