@@ -5,7 +5,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Flower {
+import java.io.Serializable;
+
+public class Flower implements Serializable {
     private int id;
     private boolean bloom;
     private String name;
