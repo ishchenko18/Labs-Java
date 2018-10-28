@@ -41,8 +41,8 @@ public class Controller {
                     getFlowerByNameAndCount(flower, "flowers.csv");
                     break;
                 case 3:
-                    view.printString("-----All flowers-----\n");
-                    view.printList(Arrays.stream(model.getFlowers()).collect(Collectors.toList()));
+                    view.printString("--------------------All flowers--------------------\n");
+                    view.printListOfFlowers(Arrays.stream(model.getFlowers()).collect(Collectors.toList()));
                     break;
                 case 4:
                     break;
@@ -53,18 +53,18 @@ public class Controller {
     }
 
     public void getRoomBloomedFLowersAndPrice(String fileName) {
-        generalPrintingInformation("\n\n======Bloomed flowers=====\n",
+        generalPrintingInformation("\n\n========================Bloomed flowers=======================\n",
                 model.getRoomBloomedFlowers(), String.format("\nPrice of bloomed flowers: %.2f", model.getPriceOfRoomBloomedFlowers()));
     }
 
     public void getFlowerByNameAndCount(String name, String fileName) {
-        generalPrintingInformation(String.format("\n\n======Flowers '%s'======\n", name.toUpperCase()),
+        generalPrintingInformation(String.format("\n\n========================Flowers '%s'========================\n", name.toUpperCase()),
                 model.getFlowersByName(name), String.format("\nCount of '%s': %d", name.toUpperCase(), model.getCountOfFlowersByName(name)));
     }
 
     private void generalPrintingInformation(String headline, List<Flower> flowers, String lastStr) {
         view.printString(headline);
-        view.printList(flowers);
+        view.printListOfFlowers(flowers);
 
         view.printString(lastStr);
     }
