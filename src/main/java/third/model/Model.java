@@ -1,6 +1,8 @@
 package third.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import third.entities.Flower;
 import third.parser.Parser;
 
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Model {
+    private static final Logger LOGGER = LogManager.getLogger(Model.class);
     private Flower[] flowers;
     private Parser parser;
 
@@ -51,11 +54,11 @@ public class Model {
         }
     }
 
-    public String parseFile(String fileName) throws Exception {
+    public void parseFile(String fileName) throws Exception {
         List<Flower> fls = parser.parseCsvFile(fileName);
         flowers = new Flower[fls.size()];
         flowers = fls.toArray(flowers);
 
-        return String.format("File %s was successfully parsed.", fileName);
+        LOGGER.info("File {} was successfully parsed.", fileName);
     }
 }

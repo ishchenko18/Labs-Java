@@ -1,5 +1,7 @@
 package third.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import third.entities.Flower;
 import third.model.Model;
 import third.view.View;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
+    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
     private Model model;
     private View view;
 
@@ -37,12 +40,14 @@ public class Controller {
                 case 1:
                     getRoomBloomedFlowersAndPrice();
                     writeFlowers(model.getRoomBloomedFlowers(), "roomBloomedFlowers");
+                    LOGGER.info("Bloomed flowers wrote to file.");
                     break;
                 case 2:
                     view.printString("Enter name of flower: ");
                     String flower = view.inputString();
                     getFlowerByNameAndCount(flower);
                     writeFlowers(model.getFlowersByName(flower), String.format("%sFlowers", flower.toLowerCase()));
+                    LOGGER.info("Flowers {} wrote to file.", flower);
                     break;
                 case 3:
                     view.printString("-----All flowers-----\n");
@@ -92,7 +97,7 @@ public class Controller {
                     view.printString("Such type of writing doesn't exist.");
             }
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            LOGGER.error("Error while writing file: {}", e.getMessage());
         }
     }
 
@@ -107,7 +112,7 @@ public class Controller {
         try {
             model.parseFile(String.format("src/main/resources/third/%s", fileName));
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.error("Error while parse flowers file: {}", e.getMessage());
             System.exit(1);
         }
     }
