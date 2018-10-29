@@ -42,11 +42,11 @@ public class Controller {
                     view.printString("Enter name of flower: ");
                     String flower = view.inputString();
                     getFlowerByNameAndCount(flower);
-                    writeFlowers(model.getFlowersByName(flower), "roomBloomedFlowers");
+                    writeFlowers(model.getFlowersByName(flower), String.format("%sFlowers", flower.toLowerCase()));
                     break;
                 case 3:
                     view.printString("-----All flowers-----\n");
-                    view.printList(Arrays.stream(model.getFlowers()).collect(Collectors.toList()));
+                    view.printListOfFlowers(Arrays.stream(model.getFlowers()).collect(Collectors.toList()));
                     break;
                 case 4:
                     break;
@@ -58,12 +58,12 @@ public class Controller {
 
     public void getRoomBloomedFlowersAndPrice() {
         generalPrintingInformation("\n\n======Bloomed flowers=====\n",
-                model.getRoomBloomedFlowers(), String.format("\nPrice of bloomed flowers: %.2f", model.getPriceOfRoomBloomedFlowers()));
+                model.getRoomBloomedFlowers(), String.format("\nPrice of bloomed flowers: %.2f\n", model.getPriceOfRoomBloomedFlowers()));
     }
 
     public void getFlowerByNameAndCount(String name) {
         generalPrintingInformation(String.format("\n\n======Flowers '%s'======\n", name.toUpperCase()),
-                model.getFlowersByName(name), String.format("\nCount of '%s': %d", name.toUpperCase(), model.getCountOfFlowersByName(name)));
+                model.getFlowersByName(name), String.format("\nCount of '%s': %d\n", name.toUpperCase(), model.getCountOfFlowersByName(name)));
     }
 
     private void writeFlowers(List<Flower> flowers, String fileName) {
@@ -98,7 +98,7 @@ public class Controller {
 
     private void generalPrintingInformation(String headline, List<Flower> flowers, String lastStr) {
         view.printString(headline);
-        view.printList(flowers);
+        view.printListOfFlowers(flowers);
 
         view.printString(lastStr);
     }

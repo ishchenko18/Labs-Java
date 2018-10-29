@@ -16,8 +16,9 @@ public class WriterUtils {
     }
 
     public static void writeFlowersUsingSerialization(List<Flower> flowers, String fileName) throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(buildFileName(fileName, "txt")));
-        objectOutputStream.writeObject(flowers);
+        try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(buildFileName(fileName, "txt")))) {
+            objectOutputStream.writeObject(flowers);
+        }
     }
 
     public static void writeFlowersToJSON(List<Flower> flowers, String filename) throws IOException {
